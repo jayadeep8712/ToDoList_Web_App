@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your To-Do List</title>
+    <link rel="icon" href="#">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+
+            --bg-color-transition: background-color 0.3s;
+            --text-color-transition: color 0.3s;
+            transition: var(--bg-color-transition), var(--text-color-transition);
+        }
+
+
+        .app {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            padding-right: 40px;
+
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        /*li {
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        li button {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        li button:hover {
+            background-color: #e53935;
+        }*/
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: #ffffff2d;
+            box-shadow: 0 2px 4px #0000001a;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        li:hover {
+            background-color: #828282;
+            transform: scale(1.02);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: colorChange 2s linear infinite;
+        }
+
+        @keyframes colorChange {
+            0% {
+                background-color: #f0f0f0;
+            }
+
+            25% {
+                background-color: #e0e0e0;
+            }
+
+            50% {
+                background-color: #f0f0f0;
+            }
+
+            75% {
+                background-color: #e0e0e0;
+            }
+
+            100% {
+                background-color: #f0f0f0;
+            }
+        }
+
+
+        li button {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-left: 20px;
+        }
+
+        li button:hover {
+            background-color: #e53935;
+        }
+
+        .reminder {
+            color: #e53935;
+            font-weight: bold;
+        }
+
+
+        .mode-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /*----------LD_Modes--------*/
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+            width: 40px;
+            height: 20px;
+        }
+
+        .slider-box {
+            height: 20px;
+            width: 20px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+            transform: translateX(0);
+        }
+
+        input:checked+.slider {
+            background-color: #45a049;
+        }
+
+        input:checked+.slider .slider-box {
+            -webkit-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+
+<body>
+    <label class="switch" id="toggle-switch">
+        <input type="checkbox" id="modeToggle">
+        <span class="slider">
+            <span class="slider-box" id="sliderBox"></span>
+        </span>
+    </label>
+    <div class="app">
+        <h1>Your To-Do List</h1>
+        <div class="input-container">
+            <input type="text" id="task" placeholder="Add a task">
+            <input type="datetime-local" id="due-date">
+            <button id="add-task">Add Task</button>
+        </div>
+        <ul id="task-list">
+            <!-- Tasks will be added here -->
+        </ul>
+
+    </div>
+
+
+    <script>
+        /*document.addEventListener('DOMContentLoaded', function () {
+            const taskInput = document.getElementById('task');
+            const dueDateInput = document.getElementById('due-date');
+            const addTaskButton = document.getElementById('add-task');
+            const taskList = document.getElementById('task-list');
+
+            addTaskButton.addEventListener('click', function () {
+                const taskText = taskInput.value.trim();
+                const dueDate = dueDateInput.value;
+                if (taskText) {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <span>${taskText}</span>
+                        <span class="due-date">${dueDate}</span>
+                        <button class="delete">Delete</button>
+                    `;
+                    taskList.appendChild(listItem);
+                    taskInput.value = '';
+                    dueDateInput.value = '';
+                    addDeleteTaskHandler(listItem);
+                    checkReminder(listItem);
+
+
+                    if (Notification.permission === 'granted' || Notification.permission === 'default') {
+                        new Notification('Task Added', {
+                            body: `Task: ${taskText} has been added.`,
+                        });
+                    }
+                }
+            });
+
+            function addDeleteTaskHandler(item) {
+                const deleteButton = item.querySelector('.delete');
+                deleteButton.addEventListener('click', function () {
+                    taskList.removeChild(item);
+                });
+            }
+
+            function checkReminder(item) {
+                const dueDate = item.querySelector('.due-date').value;
+                const currentDate = new Date();
+                if (new Date(dueDate) > currentDate) {
+                    item.querySelector('.due-date').classList.add('reminder');
+                }
+            }
+        });*/
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const taskInput = document.getElementById('task');
+            const dueDateInput = document.getElementById('due-date');
+            const addTaskButton = document.getElementById('add-task');
+            const taskList = document.getElementById('task-list');
+
+            addTaskButton.addEventListener('click', function () {
+                const taskText = taskInput.value.trim();
+                const dueDate = dueDateInput.value;
+                if (taskText) {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <span>${taskText}</span>
+                        <span class="due-date">${dueDate}</span>
+                        <button class="delete">Delete</button>
+                        <ul class="subtasks"></ul>
+                        <button class="add-subtask">Add Subtask</button>
+                    `;
+                    taskList.appendChild(listItem);
+                    taskInput.value = '';
+                    dueDateInput.value = '';
+                    addDeleteTaskHandler(listItem);
+                    addSubtaskHandler(listItem);
+                    checkReminder(listItem);
+
+
+                    if (Notification.permission === 'granted' || Notification.permission === 'default') {
+                        new Notification('Task Added', {
+                            body: `Task: ${taskText} has been added.`,
+                        });
+                    }
+                }
+            });
+
+            function addDeleteTaskHandler(item) {
+                const deleteButton = item.querySelector('.delete');
+                deleteButton.addEventListener('click', function () {
+                    taskList.removeChild(item);
+                });
+            }
+
+            function addSubtaskHandler(item) {
+                const addSubtaskButton = item.querySelector('.add-subtask');
+                const subtasksList = item.querySelector('.subtasks');
+                addSubtaskButton.addEventListener('click', function () {
+                    const subtaskText = prompt('Enter a subtask:');
+                    if (subtaskText) {
+                        const subtaskItem = document.createElement('li');
+                        subtaskItem.innerHTML = `
+                            <span>${subtaskText}</span>
+                            <button class="delete-subtask">X</button>
+                        `;
+                        subtasksList.appendChild(subtaskItem);
+                        addDeleteSubtaskHandler(subtaskItem);
+                    }
+                });
+            }
+
+            function addDeleteSubtaskHandler(subtaskItem) {
+                const deleteSubtaskButton = subtaskItem.querySelector('.delete-subtask');
+                deleteSubtaskButton.addEventListener('click', function () {
+                    subtaskItem.remove();
+                });
+            }
+
+            function checkReminder(item) {
+                const dueDate = item.querySelector('.due-date').value;
+                const currentDate = new Date();
+                if (new Date(dueDate) > currentDate) {
+                    item.querySelector('.due-date').classList.add('reminder');
+                }
+            }
+        });
+
+        //-----------------------------------------------------------------------//
+
+        const modeToggle = document.getElementById("modeToggle");
+
+        modeToggle.addEventListener("change", () => {
+            if (modeToggle.checked) {
+                document.documentElement.style.setProperty("--bg-color", "#333");
+                document.documentElement.style.setProperty("--text-color", "#fff");
+            } else {
+                document.documentElement.style.setProperty("--bg-color", "#fff");
+                document.documentElement.style.setProperty("--text-color", "#000");
+            }
+        });
+
+
+        //--------------------------------------------------------------------------//
+
+
+    </script>
+</body>
+
+</html>
