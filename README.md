@@ -25,12 +25,11 @@ I'm thrilled to be working on Task 2 of my exciting journey with the Codecasa In
 
 ## Feedback and Support
 
-Your feedback is invaluable. If you encounter issues or have suggestions, please reach out to me at [your-email@example.com].
+Your feedback is invaluable. If you encounter issues or have suggestions, please reach out to me at [PendelaJayadeep@gmail.com].
 
 ## License
 
-This project is licensed under the [License Name] - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License] see the file for details.
 
 Thank you for exploring the TodoList Web App and for being part of my creative journey!
-
-[![Insert Additional Badges or Links Here]](insert-link-or-image-here)
+ 
