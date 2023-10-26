@@ -64,27 +64,7 @@
             list-style: none;
             padding: 0;
         }
-
-        /*li {
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 5px 0;
-        }
-
-        li button {
-            background-color: #f44336;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            cursor: pointer;
-        }
-
-        li button:hover {
-            background-color: #e53935;
-        }*/
-
+        
         li {
             display: flex;
             justify-content: space-between;
@@ -226,54 +206,6 @@
 
 
     <script>
-        /*document.addEventListener('DOMContentLoaded', function () {
-            const taskInput = document.getElementById('task');
-            const dueDateInput = document.getElementById('due-date');
-            const addTaskButton = document.getElementById('add-task');
-            const taskList = document.getElementById('task-list');
-
-            addTaskButton.addEventListener('click', function () {
-                const taskText = taskInput.value.trim();
-                const dueDate = dueDateInput.value;
-                if (taskText) {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `
-                        <span>${taskText}</span>
-                        <span class="due-date">${dueDate}</span>
-                        <button class="delete">Delete</button>
-                    `;
-                    taskList.appendChild(listItem);
-                    taskInput.value = '';
-                    dueDateInput.value = '';
-                    addDeleteTaskHandler(listItem);
-                    checkReminder(listItem);
-
-
-                    if (Notification.permission === 'granted' || Notification.permission === 'default') {
-                        new Notification('Task Added', {
-                            body: `Task: ${taskText} has been added.`,
-                        });
-                    }
-                }
-            });
-
-            function addDeleteTaskHandler(item) {
-                const deleteButton = item.querySelector('.delete');
-                deleteButton.addEventListener('click', function () {
-                    taskList.removeChild(item);
-                });
-            }
-
-            function checkReminder(item) {
-                const dueDate = item.querySelector('.due-date').value;
-                const currentDate = new Date();
-                if (new Date(dueDate) > currentDate) {
-                    item.querySelector('.due-date').classList.add('reminder');
-                }
-            }
-        });*/
-
-
         document.addEventListener('DOMContentLoaded', function () {
             const taskInput = document.getElementById('task');
             const dueDateInput = document.getElementById('due-date');
